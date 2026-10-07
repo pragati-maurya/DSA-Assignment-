@@ -1,0 +1,230 @@
+Q1. Stack Using Array
+
+A stack is a linear data structure that follows LIFO (Last In, First Out).
+Example: If we insert 10, 20, 30, then 30 will be removed first.
+
+Operations:
+PUSH → Adds an element.
+POP → Removes the top element.
+PEEK → Shows the top element.
+DISPLAY → Shows all elements.
+
+Overflow: When we try to add an element when the stack is full.
+Underflow: When we try to remove an element when the stack is empty.
+
+CODE: 
+#include <stdio.h>
+
+#define SIZE 5
+
+int stack[SIZE];
+int top = -1;
+
+void push(int x)
+{
+    if (top == SIZE - 1)
+        printf("Stack Overflow\n");
+    else
+    {
+        top++;
+        stack[top] = x;
+        printf("Element pushed\n");
+    }
+}
+
+void pop()
+{
+    if (top == -1)
+        printf("Stack Underflow\n");
+    else
+    {
+        printf("Deleted: %d\n", stack[top]);
+        top--;
+    }
+}
+
+void peek()
+{
+    if (top == -1)
+        printf("Stack is empty\n");
+    else
+        printf("Top element: %d\n", stack[top]);
+}
+
+void display()
+{
+    if (top == -1)
+        printf("Stack is empty\n");
+    else
+    {
+        printf("Stack elements:\n");
+
+        for (int i = top; i >= 0; i--)
+            printf("%d\n", stack[i]);
+    }
+}
+
+int main()
+{
+    push(10);
+    push(20);
+    push(30);
+
+    display();
+
+    peek();
+
+    pop();
+
+    display();
+
+    return 0;
+}
+
+OUTPUT:
+
+Element pushed
+Element pushed
+Element pushed
+
+Stack elements:
+30
+20
+10
+
+Top element: 30
+
+Deleted: 30
+
+Stack elements:
+20
+10
+
+
+Q2. Circular Queue Using Array!!
+
+A queue follows FIFO (First In, First Out).
+Example: If we insert 10, 20, 30, then 10 will be removed first.
+A circular queue connects the last position of the array back to the first position.
+
+Operations:
+ENQUEUE → Adds an element.
+DEQUEUE → Removes an element.
+FRONT → Shows the first element.
+DISPLAY → Shows all elements.
+
+CODE:
+
+#include <stdio.h>
+
+#define SIZE 5
+
+int queue[SIZE];
+int front = -1;
+int rear = -1;
+
+void enqueue(int x)
+{
+    if ((rear + 1) % SIZE == front)
+    {
+        printf("Queue is Full\n");
+        return;
+    }
+
+    if (front == -1)
+        front = 0;
+
+    rear = (rear + 1) % SIZE;
+    queue[rear] = x;
+
+    printf("Element inserted\n");
+}
+
+void dequeue()
+{
+    if (front == -1)
+    {
+        printf("Queue is Empty\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", queue[front]);
+
+    if (front == rear)
+    {
+        front = -1;
+        rear = -1;
+    }
+    else
+    {
+        front = (front + 1) % SIZE;
+    }
+}
+
+void showFront()
+{
+    if (front == -1)
+        printf("Queue is Empty\n");
+    else
+        printf("Front element: %d\n", queue[front]);
+}
+
+void display()
+{
+    int i;
+
+    if (front == -1)
+    {
+        printf("Queue is Empty\n");
+        return;
+    }
+
+    printf("Queue elements:\n");
+
+    i = front;
+
+    while (1)
+    {
+        printf("%d ", queue[i]);
+
+        if (i == rear)
+            break;
+
+        i = (i + 1) % SIZE;
+    }
+
+    printf("\n");
+}
+
+int main()
+{
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+
+    display();
+
+    showFront();
+
+    dequeue();
+
+    display();
+
+    return 0;
+}
+
+OUTPUT:
+
+Element inserted
+Element inserted
+Element inserted
+
+Queue elements:
+10 20 30
+
+Front element: 10
+
+Deleted: 10
+
+Queue elements:
+20 30
